@@ -1,0 +1,2 @@
+# javascript.info
+translation page
