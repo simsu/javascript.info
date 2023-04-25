@@ -27,3 +27,33 @@ HTML 사전은 충분히 많은 것을 제공하지만 무한하지는 않습니
 그것은 특별한 메서드들을 클래스에 추가하면 됩니다. 그것은 메서드들은 거의 없고, 대부분 선택사항이기 때문에 매우 간단합니다.
 
 다음은 전체 예시입니다:
+
+
+...(중략)
+
+
+# Rendering order
+
+HTML 파서가 DOM을 생성할 때, element들은 하나씩, 부모부터 자식순으로 실행된다. 예를 들어 ```<outer><inner></inner></outer>```라는 태그가 있다면, ```<outer>``` element가 DOM에 처음으로 생성되고 연결된다. 그리고 그 다음 ```<inner>```가 그 뒤를 따른다.
+
+그것은 custom elements들을 중요한 결과로 이끈다.
+
+예를 들어, custom element가 ```connectedCallback``` 때에 ```innerHTML``` 안으로 접근하려고 한다면, 그것은 아무것도 얻지 못할것이다 :
+
+만약 당신이 그것을 실행한다면, ```alert``` 는 비어있을 것이다.
+
+그것은 DOM이 완성되지 않은 그 시점에서 어떠한 자식도 없기 때문이다. HTML 파서는 custom element인 ```<user-info>```에 연결되고 그것의 자식 element를 만들것이지만, 아직은 아니다.
+
+우리가 custom element에 대한 정보를 넘겨주고 싶다면, 우리는 어트리뷰트를 이용할 수 있다. 그것들은 즉시 사용가능하다.
+
+Or, if we really need the children, we can defer access to them with zero-delay setTimeout.
+
+또는, 우리가 정말로 자식 element를 쓰길 원한다면, 우리는 제로 딜레이를 가진 `setTimeout` 을 defer access할 수 있다.
+
+This works:
+ 
+그것은 효과를 가진다 :
+ 
+ 
+ 
+ 
